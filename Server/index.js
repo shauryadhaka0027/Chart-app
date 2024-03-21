@@ -6,13 +6,17 @@ const { messageRouter } = require("./Router/messageRouter")
 const { userRouter } = require("./Router/userRouter")
 require("dotenv").config()
 const PORT=process.env.PORT
+const cors= require("cors")
 const app= express()
-
+app.use(cors({
+    origin:["http://localhost:5173"],
+    credentials:true
+}))
 app.use(express.json())
 app.use(cookieParser())
 app.use("/auth",authRouter)
 app.use("/msg",messageRouter)
-app.use("/user",userRouter)
+app.use("/users",userRouter)
 
 app.get("/",(req,res)=>{
     res.send("Chart app")

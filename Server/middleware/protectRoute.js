@@ -2,7 +2,9 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const protectRoute = (req, res, next) => {
-    const token = req.cookies["token"];
+    const token = req.cookies["token"] ||req.headers.authorization;
+    console.log("token",token)
+    
     try {
         if (!token) {
             return res.status(400).send({ "msg": "Unauthorized, Token is not provided" });

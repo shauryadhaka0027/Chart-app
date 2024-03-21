@@ -4,7 +4,7 @@ const { getUserForSidebar } = require("../Controller/user.controller")
 const userRouter=express.Router()
 
 
-userRouter.get("/",protectRoute ,getUserForSidebar)
+userRouter.get("/" ,protectRoute,getUserForSidebar)
 
 
 module.exports={userRouter}

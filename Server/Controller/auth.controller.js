@@ -5,7 +5,7 @@ require("dotenv").config();
 const secret_key = process.env.token_key;
 
 const signup = async (req, res) => {
-    const { fullname, username, password, confirm, gender, profilePic } = req.body;
+    const { fullname, username, password, gender, profilePic, confirm } = req.body;
     try {
         if (password !== confirm) {
             return res.status(200).send({ "msg": "Passwords do not match" });
@@ -20,13 +20,20 @@ const signup = async (req, res) => {
         const boyPic = `https://avatar.iran.liara.run/public/boy?username=${username}`;
         const girlPic = `https://avatar.iran.liara.run/public/girl?username=${username}`;
         const newUser = new AuthModel({ fullname, username, password: hash, confirm, gender, profilePic: gender === "male" ? boyPic : girlPic });
+
+       
         await newUser.save();
 
-        res.status(200).send({ "msg": "New user created" });
+       
+        const token = jwt.sign({ userId: newUser._id, fullname: newUser.fullname, username: newUser.username, profilePic: newUser.profilePic }, secret_key, { expiresIn: "1d" });
+        res.cookie("token", token, { httpOnly: true, sameSite: 'None', secure: false, maxAge: 10 * 24 * 60 * 60 * 1000 });
+
+        res.status(200).json({ "msg": {userId: newUser._id, fullname: newUser.fullname, username: newUser.username, profilePic: newUser.profilePic } });
     } catch (error) {
         res.status(400).send({ "msg": error.message });
     }
 };
+
 
 const login = async (req, res) => {
     const { username, password } = req.body;
@@ -35,9 +42,9 @@ const login = async (req, res) => {
         if (user) {
             bcrypt.compare(password, user.password, (err, result) => {
                 if (result) {
-                    const token = jwt.sign({ userId: user._id }, secret_key, { expiresIn: "1d" });
-                    res.cookie("token", token, { httpOnly: false, sameSite: 'None', secure: true ,maxAge:10*24*60*60*1000});
-                    return res.status(200).send({ "msg": "Login successfully" });
+                    const token = jwt.sign({ userId: user._id ,fullname:user.fullname,username:user.username,profilePic:user.profilePic}, secret_key, { expiresIn: "1d" });
+                    res.cookie('token', token, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 10 * 24 * 60 * 60 * 1000 });
+                    return res.status(200).send({ "msg": {userId: user._id , fullname:user.fullname,username:user.username,profilePic:user.profilePic} ,token});
                 } else {
                     return res.status(200).send({ "msg": "Password is incorrect" });
                 }
@@ -49,5 +56,24 @@ const login = async (req, res) => {
         res.status(400).send({ "msg": error.message });
     }
 };
+const logout = (req, res) => {
+    try {
+        res.cookie("jwt", "", { maxAge: 0 });
+        res.status(200).json({ message: "Logged out successfully" });
+    } catch (error) {
+        console.log("Error in logout controller", error.message);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
 
-module.exports = { signup, login };
+const user = async (req, res) => {
+    const { username } = req.body
+    try {
+        const data = await AuthModel.findOne({ username })
+        res.status(200).send({ "data": data })
+    } catch (error) {
+        res.status(400).send({ "msg": error })
+    }
+}
+
+module.exports = { signup, login, logout, user };
