@@ -1,18 +1,25 @@
 import { useContext, useEffect } from "react";
 import { SocketContext } from "../ContextApi/SocketContext";
 import useConversation from "../Zustand/useConversation";
+import useGetMessage from "./useGetMessage";
+import notification from ".././assets/sound/mixkit-clear-announce-tones-2861.wav"
 
 const useListenMessages = () => {
   const { socket } = useContext(SocketContext);
-  const { messages, setMessages } = useConversation();
+  const { setMessages } = useConversation();
+  const{messages}=useGetMessage()
 
   console.log("message00",messages)
   useEffect(() => {
-   socket.on('newMessage',(newMessages)=>{
-    console.log("newMessage0",newMessages);
-    setMessages([...messages, newMessages]);
+   socket?.on('newMessage',(newMessages)=>{
+    console.log("newMessage01",newMessages);
+    const sound = new Audio(notification)
+    sound.play()
+    newMessages.shouldShake=true
+    setMessages([...messages,newMessages]);
 })
-  }, [socket, setMessages]);
+ return ()=> socket?.off("newMessage")
+  }, [socket, setMessages,messages]);
 
 };
 
