@@ -15,8 +15,8 @@ const useSendMessage = () => {
             if(data.error){
                 throw new Error(data.error)
             }
-            
-            setMessages([...messages,data])
+            console.log("data",data)
+            setMessages([...messages,data.msg])
         } catch (error) {
             toast.error(error.message)
         } finally{

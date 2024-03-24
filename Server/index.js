@@ -4,13 +4,15 @@ const { authRouter } = require("./Router/authRouter")
 const cookieParser=require("cookie-parser")
 const { messageRouter } = require("./Router/messageRouter")
 const { userRouter } = require("./Router/userRouter")
+const {app, server}=require("./Socket/socket")
 require("dotenv").config()
 const PORT=process.env.PORT
 const cors= require("cors")
-const app= express()
+// const app= express()
 app.use(cors({
     origin:["http://localhost:5173"],
-    credentials:true
+    credentials:true,
+    methods: ["GET", "POST"],
 }))
 app.use(express.json())
 app.use(cookieParser())
@@ -27,7 +29,7 @@ app.get("/",(req,res)=>{
 
 
 
-app.listen(PORT,async()=>{
+server.listen(PORT,async()=>{
     try {
         await connection
         console.log(`Server is start ${PORT} and db is also connected`)

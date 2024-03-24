@@ -1,5 +1,6 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import useConversation from '../../Zustand/useConversation';
+import { SocketContext } from '../../ContextApi/SocketContext';
 
 
 const Conversation = ({ conversation, emoji, lastIndex }) => {
@@ -9,6 +10,8 @@ const Conversation = ({ conversation, emoji, lastIndex }) => {
   const handleClick = () => {
     setSelectedConversation(conversation); 
   };
+  const{onlineUser}=useContext(SocketContext)
+  const isonline=onlineUser.includes(conversation._id)
 
   return (
     <div>
@@ -18,7 +21,7 @@ const Conversation = ({ conversation, emoji, lastIndex }) => {
         }`}
         onClick={handleClick} 
       >
-        <div className='avatar online'>
+        <div className={`avatar ${isonline?"online":""}`}>
           <div className='w-12 rounded-full'>
             <img src={conversation.profilePic} alt='user avatar' />
           </div>

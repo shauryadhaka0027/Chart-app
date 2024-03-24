@@ -3,7 +3,7 @@ require("dotenv").config();
 
 const protectRoute = (req, res, next) => {
     const token = req.cookies["token"] ||req.headers.authorization;
-    console.log("token",token)
+    // console.log("token",token)
     
     try {
         if (!token) {
