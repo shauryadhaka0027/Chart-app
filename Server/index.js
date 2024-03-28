@@ -5,6 +5,8 @@ const cookieParser=require("cookie-parser")
 const { messageRouter } = require("./Router/messageRouter")
 const { userRouter } = require("./Router/userRouter")
 const {app, server}=require("./Socket/socket")
+var path = require('path');
+
 require("dotenv").config()
 const PORT=process.env.PORT
 const cors= require("cors")
@@ -19,6 +21,7 @@ app.use(cookieParser())
 app.use("/auth",authRouter)
 app.use("/msg",messageRouter)
 app.use("/users",userRouter)
+app.use("/",express.static(path.join(__dirname,'public')));
 
 app.get("/",(req,res)=>{
     res.send("Chart app")

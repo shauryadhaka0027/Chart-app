@@ -17,7 +17,7 @@ const usesignup = () => {
       }
     
       setAuthUser(mydata);
-      localStorage.setItem("chart-user",JSON.stringify(mydata))
+      localStorage.setItem("chat-user",JSON.stringify(mydata))
       console.log("getData",mydata)
       toast.success("Signup successful!"); 
     } catch (error) {

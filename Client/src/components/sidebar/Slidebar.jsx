@@ -5,9 +5,9 @@ import Conversations from "./Conversations"
 const Slidebar = () => {
   return (
     
-   <div className='border-r border-slate-500 p-4 flex flex-col'>
+   <div className='border-r border-slate-500 p-4 flex flex-col   '>
 			<SearchInput/>
-			<div className='divider px-4'></div>
+			<div className='divider px-8'></div>
 			<Conversations />
 			<LogoutButton />
 		</div>

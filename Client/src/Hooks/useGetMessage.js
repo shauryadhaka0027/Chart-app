@@ -17,6 +17,7 @@ const useGetMessage = () => {
           { withCredentials: true }
         );
         const data = res.data.msg;
+        console.log("data11",data)
         if (data.error) {
           throw new Error(data.error);
         }
