@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BsSend } from 'react-icons/bs';
 import useSendMessage from '../../Hooks/useSendMessage';
 import { MdAddPhotoAlternate } from 'react-icons/md';
+import InputEmoji from 'react-input-emoji'
 
 const MessageInput = () => {
 	const [message, setMessage] = useState('');
@@ -53,7 +54,7 @@ const MessageInput = () => {
 						type='file'
 						name='image'
 						multiple
-						accept='image/*,video/*,audio/*'
+						accept='image/*,video/*,audio/*,application/pdf'
 						onChange={handleFileChange}
 					/>
 

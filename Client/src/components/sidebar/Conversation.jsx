@@ -12,6 +12,10 @@ const Conversation = ({ conversation, emoji, lastIndex }) => {
   };
   const{onlineUser}=useContext(SocketContext)
   const isonline=onlineUser.includes(conversation._id)
+  const str=conversation.profilePic
+  const word=str.split("/")
+  const words=word[0]
+  
 
   return (
     <div>
@@ -23,7 +27,7 @@ const Conversation = ({ conversation, emoji, lastIndex }) => {
       >
         <div className={`avatar ${isonline?"online":""}`}>
           <div className='w-12 rounded-full'>
-            <img src={conversation.profilePic} alt='user avatar' />
+            <img src={words==="https:" ?`${conversation.profilePic}`:`http://127.0.0.1:9001/upload/${conversation.profilePic}`} alt='user avatar' />
           </div>
         </div>
         <div className='flex flex-col flex-1'>

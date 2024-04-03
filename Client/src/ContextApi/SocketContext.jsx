@@ -12,7 +12,7 @@ export const SocketContextProvider = ({ children }) => {
     if (authUser) {
       const socket = io("http://localhost:9001/", {
         query: {
-          userId: authUser.msg.userId
+          userId: authUser.msg._id
         }
       });
       console.log("socket is connected")

@@ -12,7 +12,7 @@ const MessageConversation = () => {
 		return setSelectedConversation(null)
 	},[setSelectedConversation])
   return (
-    <div className='md:min-w-[800px] flex flex-col'>
+    <div  style={{ backgroundImage: `url("https://wallpaper-mania.com/wp-content/uploads/2018/09/High_resolution_wallpaper_background_ID_77700445662.jpg")` }}  className='md:min-w-[450px]  lg:min-w-[950px] flex flex-col  '>
  			{!selectedConversation? (<NoChatSelected/>):(<>
 
                 <div className='bg-slate-500 px-4 py-2 mb-2'>

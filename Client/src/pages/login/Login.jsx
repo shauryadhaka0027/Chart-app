@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import useLogin from '../../Hooks/useLogin';
+import { AuthContext } from '../../ContextApi/AuthContext';
 
 const Login = () => {
     const [user, setUser] = useState({ username: '', password: '' });
 	const{loading,login}=useLogin()
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 		await login(user)
          console.log("user",user)
     };
-
+   
     return (
         <div>
             <div className='flex flex-col items-center justify-center min-w-96 mx-auto'>

@@ -12,6 +12,7 @@ const usesignup = () => {
     try {
       const res = await axios.post("http://localhost:9001/auth/register", { fullname, password, gender, username, confirm }, { withCredentials: true });
       const mydata = res.data;
+     
       if (mydata.error) {
         throw new Error(mydata.error);
       }
